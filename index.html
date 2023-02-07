@@ -41,7 +41,8 @@
             </div>
             <div class="field-group">
 
-                <input placeholder="Phonenumber" type="numeric" id="phone" required="required">
+                <input placeholder="Phonenumber" type="numeric" id="phone" required="required"
+                    onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
                 <i class="fa-solid fa-circle-check success"></i>
                 <i class="fa-sharp fa-solid fa-circle-exclamation error"></i>
 

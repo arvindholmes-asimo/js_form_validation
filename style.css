@@ -57,7 +57,7 @@ i.error {
     color: green;
 }
 
-.form-group.error i.error {
+.field-group.error i.error {
     visibility: visible;
     color: red;
 }
@@ -66,12 +66,12 @@ i.error {
     visibility: hidden;
 }
 
-.form-group.error i.success {
+.field-group.error i.success {
     visibility: hidden;
 }
 
-.form-group.error {
-    visibility: hidden;
+.field-group.error {
+    /* visibility: hidden; */
     color: red;
 }
 

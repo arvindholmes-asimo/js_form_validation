@@ -13,13 +13,13 @@ let submit = document.getElementById('submit');
 const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
 
 
+
 console.log(form)
 submit.addEventListener('click', (e) => {
     console.log(e);
     e.preventDefault();
     validate(e);
 })
-
 
 function validate(e) {
     let fname = firstname.value.trim()
@@ -28,51 +28,73 @@ function validate(e) {
     let phonenumber = phone.value.trim()
     let passwordField = password.value.trim()
     let cpasswordField = cPassword.value.trim()
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ig;
 
-    if (fname == '' ) {
+    // Email regex test function
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ig;
+    function ValidateEmail(mail) {
+        return emailRegex.test(mail);
+    }
+
+    // Password regex test function
+    /*
+        Password should have between 8 to 15 characters which contain at least 
+        one lowercase letter, one uppercase letter, one numeric digit, 
+        and one special character
+    */
+    let passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
+    function checkpassword(e) {
+        return passwordRegex.test(e);
+    }
+
+    if (fname == '') {
         setError(firstname, 'inputfield  cannot be empty')
-    } else if(fname.length < 3){
+    } else if (fname.length < 3) {
         setError(firstname, 'firstname cannot be too short')
     }
     else {
-        setSuccess(firstname)
+        setError(firstname, '');
+        setSuccess(firstname);
     }
-    if (lname == '' ) {
+    if (lname == '') {
         setError(lastname, 'inputfield cannot be empty')
-    } else if( lname.length < 3){
-        setError(lastname,'lastname cannot be too short')
+    } else if (lname.length < 3) {
+        setError(lastname, 'lastname cannot be too short')
     }
     else {
-        setSuccess(lastname)
+        setError(lastname, '');
+        setSuccess(lastname);
     }
-    if (emailField =='')  {
+    if (emailField == '') {
         setError(email, 'input field cannot be empty')
-    }else if (!ValidateEmail(emailField)){
-        setError(email,'invalid email')
-    }else {
+    } else if (!ValidateEmail(emailField)) {
+        setError(email, 'invalid email')
+    } else {
+        setError(email, '');
         setSuccess(email)
     }
-    if (phonenumber.length === 10 && isNumberKey(phonenumber)) {
+    if (phonenumber.length === 10) {
+        setError(phone, '')
         setSuccess(phone)
     } else {
-        setError(phone, 'wrong number')
+        setError(phone, 'Enter valid phone number')
     }
     if (passwordField === '') {
         setError(password, 'password cannot be empty')
     } else if (passwordField.length < 8) {
         setError(password, 'password cannot be too short')
-    } else if (passwordField === !checkpassword(e)) {
+    } else if (!checkpassword(passwordField)) {
         setError(password, 'weak password')
     } else {
+        setError(password, '')
         setSuccess(password)
     }
     if (cpasswordField === '') {
         setError(cPassword, "password cannot be empty")
-    } else if (cpasswordField === !passwordField) {
+    } else if (cpasswordField !== passwordField) {
         setError(cPassword, "passwords not matching")
     }
     else {
+        setError(cPassword, '')
         setSuccess(cPassword)
     }
 
@@ -89,30 +111,11 @@ function validate(e) {
         let parent = input.parentElement;
         parent.classList.remove('error');
         parent.classList.add('success')
-
-
-
-
     }
 
-    
-    function ValidateEmail(mail) {
-        return emailRegex.test(mail);
-    }
 
-    function isNumberKey(evt) {
-        evt = (evt) ? evt : window.event;
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
-        return true;
-    }
-    phone.setAttribute("onkeypress", () => isNumberKey(evt));
 
-    function checkpassword(e) {
-        return strongRegex.test(e);
-    }
+
 
 
 
